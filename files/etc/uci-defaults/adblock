@@ -1,0 +1,7 @@
+#!/bin/sh
+/etc/init.d/adblock enable
+/etc/init.d/adblock start
+uci set adblock.global.adb_trigger='timed'
+uci set adblock.global.adb_enabled='1'
+uci set adblock.blacklist.enabled='1'
+

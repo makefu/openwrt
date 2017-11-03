@@ -1,0 +1,18 @@
+
+config wifi-device 'radio0'
+	option type 'mac80211'
+	option channel '11'
+	option hwmode '11g'
+	option path 'platform/ar933x_wmac'
+	option htmode 'HT20'
+	option country 'US'
+
+config wifi-iface
+	option device 'radio0'
+	option mode 'ap'
+	option ssid 'adblock'
+	option network 'lan'
+	option encryption 'psk2'
+	option key 'makeanicecupoftea'
+	option wpa_disable_eapol_key_retries '1'
+
