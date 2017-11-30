@@ -26,6 +26,7 @@
 #define GL_INET_GPIO_LED_WLAN		0
 #define GL_INET_GPIO_LED_LAN		13
 #define GL_INET_GPIO_BTN_RESET		11
+#define GL_INET_GPIO_BTN_ADBLOCK	20
 
 #define GL_INET_KEYS_POLL_INTERVAL	20	/* msecs */
 #define GL_INET_KEYS_DEBOUNCE_INTERVAL	(3 * GL_INET_KEYS_POLL_INTERVAL)
@@ -60,6 +61,14 @@ static struct gpio_keys_button gl_inet_gpio_keys[] __initdata = {
 		.code = KEY_RESTART,
 		.debounce_interval = GL_INET_KEYS_DEBOUNCE_INTERVAL,
 		.gpio = GL_INET_GPIO_BTN_RESET,
+		.active_low = 0,
+	},
+	{
+		.desc = "adblock",
+		.type = EV_KEY,
+		.code = BTN_1,
+		.debounce_interval = GL_INET_KEYS_DEBOUNCE_INTERVAL,
+		.gpio = GL_INET_GPIO_BTN_ADBLOCK,
 		.active_low = 0,
 	}
 };
