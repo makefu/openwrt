@@ -1,0 +1,38 @@
+#!/bin/sh
+logger "Trigger BTN_1 $ACTION"
+
+export lock=/tmp/adblock-lock
+export timeout=600
+
+
+if [ "$ACTION" == "pressed" ];then
+	if [ -f $lock ];then
+		logger "killing sleep to finish last script"
+		killall sleep
+		exit 0
+	fi
+
+	touch $lock
+	. "/usr/share/libubox/jshn.sh"
+
+	json_load "$(cat /tmp/adb_runtime.json)"
+	json_select data
+	json_get_var value "adblock_status"
+	logger "button pressed with $value"
+	if [ "$value" == enabled ];then
+		echo default-on > /sys/devices/platform/leds-gpio/leds/gl-connect:red:wlan/trigger
+		echo none > /sys/devices/platform/leds-gpio/leds/gl-connect:green:lan/trigger
+		logger "suspend adblock for $timeout secs"
+		/etc/init.d/adblock suspend
+		echo timer > /sys/devices/platform/leds-gpio/leds/gl-connect:red:wlan/trigger
+
+		(logger "resume adblock after $timeout";
+		sleep $timeout;
+		echo none > /sys/devices/platform/leds-gpio/leds/gl-connect:red:wlan/trigger;
+		echo timer > /sys/devices/platform/leds-gpio/leds/gl-connect:green:lan/trigger;
+		/etc/init.d/adblock resume;
+		echo default-on > /sys/devices/platform/leds-gpio/leds/gl-connect:green:lan/trigger;
+		rm $lock )&
+	fi
+
+fi
