@@ -25,6 +25,7 @@
 
 #define GL_INET_GPIO_LED_WLAN		0
 #define GL_INET_GPIO_LED_LAN		13
+#define GL_INET_GPIO_LED_ADBLOCK	19
 #define GL_INET_GPIO_BTN_RESET		11
 #define GL_INET_GPIO_BTN_ADBLOCK	20
 
@@ -49,6 +50,12 @@ static struct gpio_led gl_inet_leds_gpio[] __initdata = {
 	{
 		.name = "gl-inet:green:lan",
 		.gpio = GL_INET_GPIO_LED_LAN,
+		.active_low = 0,
+		.default_state = 1,
+	},
+	{
+		.name = "gl-connect:orange:adblock",
+		.gpio = GL_INET_GPIO_LED_ADBLOCK,
 		.active_low = 0,
 		.default_state = 1,
 	},
