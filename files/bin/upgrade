@@ -1,4 +1,10 @@
 #!/bin/sh
 cd /tmp
 wget http://adblock.connector.one/firmware.bin
-mtd -r write firmware.bin firmware
+wget http://adblock.connector.one/firmware.manifest
+#mtd -r write firmware.bin firmware
+
+
+
+
+sysupgrade firmware.bin

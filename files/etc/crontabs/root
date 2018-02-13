@@ -1,0 +1,2 @@
+33 03 * * *    /etc/init.d/adblock reload
+

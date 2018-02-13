@@ -13,8 +13,5 @@ make package/tinc/install
 
 todo:
 - adblock lists https://www.reddit.com/r/HomeNetworking/comments/692t70/router_adblock/
-- include tinc-pre in firmware
-- tinc-pre version fucked up. what happended?
-- automatically join tinc with script (file of invites?)
-tinc join <invitation-url>
-invite file: files/etc/invites
+
++#define GL_INET_GPIO_BTN_ADBLOCK       20 (rechts neben eckig)

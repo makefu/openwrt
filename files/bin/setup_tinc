@@ -1,0 +1,35 @@
+#!/bin/sh
+set -eufx
+my_mac=$(ifconfig eth0 | grep HWaddr | cut -d' ' -f11)
+
+cd /etc
+i=1
+for mac in $(cat macs); do
+	if [ "$mac" = "$my_mac" ];then
+		invite=$(head -n $i invites | tail -n 1)
+		logger "my invite is $invite at line $i"
+		break
+	fi
+	i=$((i+1))
+done
+
+tinc -n adbnet join ${invite?no invite found mac $my_mac}
+sleep 1
+cd /etc/tinc/adbnet
+id=$(grep ^Name tinc.conf | cut -d_ -f2)
+ipid=$(printf "%02d" $id)
+logger my id is $id
+
+tincip=10.11.0.1$ipid
+tincname=adbnet_$id
+
+cat > tinc-up <<EOF
+#!/bin/sh
+ifconfig \$INTERFACE $tincip netmask 255.255.255.255
+route add -net 10.11.0.0 netmask 255.255.255.0 dev adbnet
+EOF
+chmod +x tinc-up
+
+cd hosts
+echo "Subnet = ${tincip}/32" | cat - $tincname > ${tincname}.tmp
+mv ${tincname}.tmp $tincname

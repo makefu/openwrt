@@ -1,0 +1,6 @@
+#!/bin/sh
+uci set system.led_lan.trigger='default-on'
+echo default-on > /sys/devices/platform/leds-gpio/leds/gl-connect:green:lan/trigger
+uci set system.led_wlan.trigger='none'
+echo none > /sys/devices/platform/leds-gpio/leds/gl-connect:red:wlan/trigger
+uci commit
