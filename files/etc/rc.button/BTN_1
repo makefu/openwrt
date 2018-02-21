@@ -2,6 +2,7 @@
 logger "Trigger BTN_1 $ACTION"
 
 export lock=/tmp/adblock-lock
+export LED=/sys/devices/platform/leds-gpio/leds/gl-inet:red:adblock
 export timeout=600
 
 
@@ -20,19 +21,14 @@ if [ "$ACTION" == "pressed" ];then
 	json_get_var value "adblock_status"
 	logger "button pressed with $value"
 	if [ "$value" == enabled ];then
-		echo default-on > /sys/devices/platform/leds-gpio/leds/gl-connect:red:wlan/trigger
-		echo none > /sys/devices/platform/leds-gpio/leds/gl-connect:green:lan/trigger
+		echo timer > $LED/trigger
 		logger "suspend adblock for $timeout secs"
 		/etc/init.d/adblock suspend
-		echo timer > /sys/devices/platform/leds-gpio/leds/gl-connect:red:wlan/trigger
-
 		(logger "resume adblock after $timeout";
 		sleep $timeout;
-		echo none > /sys/devices/platform/leds-gpio/leds/gl-connect:red:wlan/trigger;
-		echo timer > /sys/devices/platform/leds-gpio/leds/gl-connect:green:lan/trigger;
 		/etc/init.d/adblock resume;
 		# TODO: trigger netdev
-		echo default-on > /sys/devices/platform/leds-gpio/leds/gl-connect:green:lan/trigger;
+		echo default-on > $LED/trigger;
 		rm $lock )&
 	fi
 
