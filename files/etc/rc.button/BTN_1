@@ -21,14 +21,20 @@ if [ "$ACTION" == "pressed" ];then
 	json_get_var value "adblock_status"
 	logger "button pressed with $value"
 	if [ "$value" == enabled ];then
-		echo timer > $LED/trigger
-		logger "suspend adblock for $timeout secs"
-		/etc/init.d/adblock suspend
-		(logger "resume adblock after $timeout";
-		sleep $timeout;
-		/etc/init.d/adblock resume;
+                echo timer > $LED/trigger
+                echo 100 > $LED/delay_on
+                echo 100 > $LED/delay_off
+                logger "suspend adblock for $timeout secs"
+                /etc/init.d/adblock suspend
+                echo 500 > $LED/delay_on
+                echo 500 > $LED/delay_off
+                (logger "resume adblock after $timeout"
+                sleep $timeout
+                echo 100 > $LED/delay_on
+                echo 100 > $LED/delay_off
+                /etc/init.d/adblock resume
 		# TODO: trigger netdev
-		echo default-on > $LED/trigger;
+		echo default-on > $LED/trigger
 		rm $lock )&
 	fi
 
