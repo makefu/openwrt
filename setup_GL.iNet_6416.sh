@@ -1,24 +1,21 @@
 #!/bin/sh
-./scripts/feeds install libpam
-./scripts/feeds install libgnutls
-./scripts/feeds install libopenldap
-./scripts/feeds install libssh2
-./scripts/feeds install liblzma
-./scripts/feeds install libidn
-./scripts/feeds install libnetsnmp
-./scripts/feeds install luci  
-./scripts/feeds install adblock
-./scripts/feeds install luci-app-adblock
-#./scripts/feeds install tinc
+install_feeds(){
+	for i in "$@";do
+		echo "Installing feed $i"
+		./scripts/feeds install $i
+	done
+}
+
+
+install_feeds libpam libgnutls libopenldap libssh2 liblzma libidn libnetsnmp luci  adblock luci-app-adblock
+
+
 # get tinc pre so you can use invites
-rm -rf feeds/packages/net/tinc
-git clone https://github.com/excogitation/openwrt-tinc-1.1.git
-./scripts/feeds install tinc
+pushd feeds/packages/net
+rm -rf tinc
+git clone https://github.com/excogitation/openwrt-tinc-1.1.git tinc
+popd
 
-./scripts/feeds install coreutils
-./scripts/feeds install libpthread
-./scripts/feeds install ecdsautils
+install_feeds tinc
 
-./scripts/feeds install wget
-#as the built-in wget doesn't work with adblock
-
+install_feeds coreutils libpthread ecdsautils luci-app-unbound unbound libunbound wget
