@@ -1,10 +1,14 @@
 #!/bin/sh
 cd /tmp
-wget http://adblock.connector.one/firmware.bin
+wget http://adblock.connector.one/openwrt-ar71xx-generic-gl-inet-6416A-v1-squashfs-sysupgrade.bin -O firmware.bin
+#wget http://adblock.connector.one/firmware.bin
 wget http://adblock.connector.one/firmware.manifest
 #mtd -r write firmware.bin firmware
 
 
 
 
+rm -f /etc/config/*
+#do not do it like this
+#opkg list-changed-conffiles | grep -v sysupgrade.conf  | xargs rm
 sysupgrade firmware.bin

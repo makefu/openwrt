@@ -1,7 +1,11 @@
 #!/bin/sh
-/etc/init.d/adblock enable
-/etc/init.d/adblock start
-uci set adblock.global.adb_trigger='timed'
-uci set adblock.global.adb_enabled='1'
-uci set adblock.blacklist.enabled='1'
 
+uci -q batch <<-EOT
+	set adblock.global.adb_enabled='1'
+	set adblock.adguard.enabled='1'
+	set adblock.malware.enabled='1'
+	set adblock.malwarelist.enabled='1'
+	set adblock.openphish.enabled='1'
+	set adblock.ransomware.enabled='1'
+	commit
+    EOT
