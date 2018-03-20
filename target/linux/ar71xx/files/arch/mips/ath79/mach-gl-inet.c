@@ -57,7 +57,7 @@ static struct gpio_led gl_inet_leds_gpio[] __initdata = {
 		.name = "gl-inet:red:adblock",
 		.gpio = GL_INET_GPIO_LED_ADBLOCK,
 		.active_low = 0,
-		.default_state = 1,
+		.default_state = 0,
 	},
 };
 
