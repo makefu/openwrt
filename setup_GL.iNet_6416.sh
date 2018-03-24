@@ -1,9 +1,12 @@
 #!/bin/sh
+
+./scripts/feeds update -a
+
 install_feeds(){
-	for i in "$@";do
-		echo "Installing feed $i"
-		./scripts/feeds install $i
-	done
+  for i in "$@";do
+    echo "Installing feed $i"
+    ./scripts/feeds install $i
+  done
 }
 
 
