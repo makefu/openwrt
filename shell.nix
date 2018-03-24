@@ -1,6 +1,11 @@
-{ pkgs ? import <nixpkgs> {} }:
+{ opkgs ? import <nixpkgs> {} }:
 
 let
+  pkgs = import (opkgs.fetchFromGitHub {
+    owner = "NixOS"; repo = "nixpkgs-channels";
+    rev = "bee172501de3b4496ff81cc1621d307f167e9382";
+    sha256 = "14jn7jiq4likrm7fry2m3q3rmv3y4xjfnwx13wh6iqd8c3bcjd12";
+  }) {};
   fixWrapper = pkgs.runCommand "fix-wrapper" {} ''
     mkdir -p $out/bin
     for i in ${pkgs.gcc.cc}/bin/*-gnu-gcc*; do
@@ -17,6 +22,7 @@ let
       [ git
         perl
         gnumake
+        binutils
         gcc
         unzip
         utillinux
