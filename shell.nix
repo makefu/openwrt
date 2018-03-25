@@ -3,8 +3,8 @@
 let
   pkgs = import (opkgs.fetchFromGitHub {
     owner = "NixOS"; repo = "nixpkgs-channels";
-    rev = "bee172501de3b4496ff81cc1621d307f167e9382";
-    sha256 = "14jn7jiq4likrm7fry2m3q3rmv3y4xjfnwx13wh6iqd8c3bcjd12";
+    rev = "aeff3080d02ce6ac2b2ad0b0029c1388eab2d8c7";
+    sha256 = "0zbfwlzk17nqckx8z96n205zzl3msczrv87hz9p1qdnxlcibzsvk";
   }) {};
   fixWrapper = pkgs.runCommand "fix-wrapper" {} ''
     mkdir -p $out/bin
@@ -22,7 +22,6 @@ let
       [ git
         perl
         gnumake
-        binutils
         gcc
         unzip
         utillinux
